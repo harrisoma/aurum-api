@@ -28,7 +28,7 @@ export declare function saveScenario(userId: string, scenario: ScenarioInput, an
 export declare function getHolisticImpact(userId: string, scenario: ScenarioInput): Promise<{
     financial: {
         impact: ImpactAnalysis;
-        status: "caution" | "proceed" | "reconsider";
+        status: "proceed" | "caution" | "reconsider";
     };
     health: {
         impact: null;

@@ -26,7 +26,7 @@ export interface CareerInsight {
 }
 export declare const getCareerGoals: (userId: string) => Promise<CareerGoal[]>;
 export declare const getUserSkills: (userId: string) => Promise<SkillAssessment[]>;
-export declare const createCareerGoal: (userId: string, title: string, description: string, targetDate: string, priority: 'high' | 'medium' | 'low') => Promise<CareerGoal | null>;
+export declare const createCareerGoal: (userId: string, title: string, description: string, targetDate: string, priority: "high" | "medium" | "low") => Promise<CareerGoal | null>;
 export declare const generateCareerInsights: (userId: string) => Promise<CareerInsight[]>;
 export declare const getCareerRecommendations: (userId: string) => Promise<string[]>;
 export declare const addSkillEndorsement: (userId: string, skillId: string, endorsements: number) => Promise<SkillAssessment | null>;
