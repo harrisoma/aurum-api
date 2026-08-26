@@ -8,6 +8,7 @@
 # - Read-only filesystem
 # - Health checks
 # - Minimal image size
+# Updated: Using npm install for cross-platform compatibility
 
 # ---- Stage 1: builder ----
 FROM node:20.11.1-slim AS builder
