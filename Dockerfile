@@ -23,7 +23,8 @@ COPY tsconfig.json ./
 COPY src ./src
 
 # Install dependencies
-RUN npm ci --omit=optional --no-audit --no-fund \
+RUN npm cache clean --force \
+ && npm ci --omit=optional --no-audit --no-fund \
  && npx tsc -p tsconfig.json \
  && npm prune --omit=dev
 
