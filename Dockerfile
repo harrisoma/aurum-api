@@ -26,7 +26,7 @@ COPY src ./src
 # Install dependencies
 RUN npm cache clean --force \
  && npm install --omit=optional --no-audit --no-fund \
- && npx tsc -p tsconfig.json \
+ && npm run build \
  && npm prune --omit=dev
 
 # ---- Stage 2: runtime ----
