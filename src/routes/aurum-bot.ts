@@ -196,13 +196,88 @@ router.post('/connect-wallet', authenticateToken, async (req: AuthRequest, res) 
   }
 });
 
+// GET /trading/strategies - List all available strategies
+router.get('/strategies', authenticateToken, async (req: AuthRequest, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ error: 'Unauthorized' });
+
+    const { strategyEngine } = await import('../services/strategies.js');
+    const strategies = strategyEngine.listStrategies();
+
+    res.json({
+      strategies,
+      count: strategies.length,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Error fetching strategies:', error);
+    res.status(500).json({ error: 'Failed to fetch strategies' });
+  }
+});
+
+// POST /trading/scout/discover - Scout AI discovers best setups for the day
+router.post('/scout/discover', authenticateToken, async (req: AuthRequest, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ error: 'Unauthorized' });
+
+    const { symbols } = req.body;
+    if (!symbols || !Array.isArray(symbols)) {
+      return res.status(400).json({ error: 'symbols array required' });
+    }
+
+    const { strategyEngine } = await import('../services/strategies.js');
+    const { getLLMAdapter } = await import('../services/llm-adapter.js');
+
+    const llmAdapter = getLLMAdapter();
+    const setups = await strategyEngine.scoutBestSetups(symbols, llmAdapter);
+
+    res.json({
+      count: setups.length,
+      setups,
+      message: `Scout found ${setups.length} high-confidence setups for ${symbols.join(', ')}`,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Error scouting setups:', error);
+    res.status(500).json({ error: 'Failed to scout setups' });
+  }
+});
+
+// POST /trading/scout/recommend - Get strategy recommendation for a symbol
+router.post('/scout/recommend', authenticateToken, async (req: AuthRequest, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ error: 'Unauthorized' });
+
+    const { symbol, marketData } = req.body;
+    if (!symbol || !marketData) {
+      return res.status(400).json({ error: 'symbol and marketData required' });
+    }
+
+    const { strategyEngine } = await import('../services/strategies.js');
+    const { getLLMAdapter } = await import('../services/llm-adapter.js');
+
+    const llmAdapter = getLLMAdapter();
+    const recommendation = await strategyEngine.recommendStrategy(symbol, marketData, llmAdapter);
+
+    res.json({
+      symbol,
+      recommendation,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Error recommending strategy:', error);
+    res.status(500).json({ error: 'Failed to recommend strategy' });
+  }
+});
+
 // GET /trading/status - Check AURUM Bot service status
 router.get('/status', async (req, res) => {
   res.json({
     status: 'online',
     service: 'AURUM Bot',
     exchanges: ['apex', 'kraken', 'coinbase'],
-    features: ['trading', 'arbitrage'],
+    strategies: ['sweep', 'hunter', 'sniper', 'accumulator', 'arbiter', 'scout'],
+    features: ['trading', 'arbitrage', 'ai-discovery', 'ai-recommendations'],
     timestamp: new Date().toISOString(),
   });
 });
