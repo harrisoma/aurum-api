@@ -21,7 +21,7 @@ import echoRoutes from './routes/echo';
 import impactRoutes from './routes/impact';
 import plaidRoutes from './routes/plaid';
 import cryptoRoutes from './routes/crypto';
-import vaultxRoutes from './routes/vaultx';
+import aurumBotRoutes from './routes/aurum-bot';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -53,7 +53,7 @@ app.use('/api/aurum', vaultRoutes);
 app.use('/api/impact', impactRoutes);
 app.use('/api/plaid', plaidRoutes);
 app.use('/api/crypto', cryptoRoutes);
-app.use('/api/trading', vaultxRoutes);
+app.use('/api/trading', aurumBotRoutes);
 app.use('/api/compass', compassRoutes);
 app.use('/api/vitality', vitalityRoutes);
 app.use('/api/circle', circleRoutes);

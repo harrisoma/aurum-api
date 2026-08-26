@@ -24,7 +24,7 @@ const echo_1 = __importDefault(require("./routes/echo"));
 const impact_1 = __importDefault(require("./routes/impact"));
 const plaid_1 = __importDefault(require("./routes/plaid"));
 const crypto_1 = __importDefault(require("./routes/crypto"));
-const vaultx_1 = __importDefault(require("./routes/vaultx"));
+const aurum_bot_1 = __importDefault(require("./routes/aurum-bot"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 4000;
 // Middleware
@@ -49,7 +49,7 @@ app.use('/api/aurum', vault_1.default);
 app.use('/api/impact', impact_1.default);
 app.use('/api/plaid', plaid_1.default);
 app.use('/api/crypto', crypto_1.default);
-app.use('/api/trading', vaultx_1.default);
+app.use('/api/trading', aurum_bot_1.default);
 app.use('/api/compass', compass_1.default);
 app.use('/api/vitality', vitality_1.default);
 app.use('/api/circle', circle_1.default);
