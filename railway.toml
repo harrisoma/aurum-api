@@ -1,0 +1,45 @@
+# AURUM API — Railway Deployment Manifest
+#
+# Production deployment for AURUM - Premium Wealth OS
+# Based on proven Turtle Bot patterns
+#
+# Services:
+#   1. aurum-api (Node.js) — Public HTTPS endpoint
+#
+# Setup in Railway dashboard:
+#   1. Create new project from this repo
+#   2. Select Dockerfile: Dockerfile (auto-detected)
+#   3. Attach public domain to aurum-api only
+#   4. Set readOnlyRootFilesystem: true
+#   5. Add tmpfs mount at /tmp
+#   6. Populate environment variables (see .env.example)
+#
+# Environment variables needed:
+#   SUPABASE_URL
+#   SUPABASE_ANON_KEY
+#   SUPABASE_SERVICE_ROLE_KEY
+#   DEEPSEEK_API_KEY
+#   PLAID_CLIENT_ID
+#   PLAID_SECRET
+#   PLAID_ENV
+
+[[services]]
+name = "aurum-api"
+source = "."
+dockerfile = "Dockerfile"
+
+  [services.deploy]
+  startCommand = "node dist/index.js"
+  healthcheckPath = "/health"
+  healthcheckTimeout = 10
+  restartPolicyType = "ON_FAILURE"
+  restartPolicyMaxRetries = 5
+  numReplicas = 1
+
+  [services.resources]
+  memoryMB = 512
+  cpuMillicores = 500
+
+  # Public — Railway assigns HTTPS domain
+  [services.network]
+  public = true
