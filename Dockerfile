@@ -10,7 +10,7 @@
 # - Minimal image size
 
 # ---- Stage 1: builder ----
-FROM node:20.11.1-alpine@sha256:bf77dc26e48ea95fca9d1aceb5acfa69d2e546b765ec2abfb502975f1a2d4def AS builder
+FROM node:20.11.1-slim AS builder
 
 ENV NODE_ENV=production \
     CI=true
@@ -29,14 +29,14 @@ RUN npm cache clean --force \
  && npm prune --omit=dev
 
 # ---- Stage 2: runtime ----
-FROM node:20.11.1-alpine@sha256:bf77dc26e48ea95fca9d1aceb5acfa69d2e546b765ec2abfb502975f1a2d4def AS runtime
+FROM node:20.11.1-slim AS runtime
 
 ENV NODE_ENV=production \
     PORT=8080
 
 # Non-root user with fixed uid/gid
-RUN addgroup -S -g 10001 aurum \
- && adduser -S -u 10001 -G aurum -h /home/aurum -s /sbin/nologin aurum \
+RUN groupadd -r -g 10001 aurum \
+ && useradd -r -u 10001 -g aurum -d /home/aurum -s /usr/sbin/nologin aurum \
  && mkdir -p /app \
  && chown -R aurum:aurum /app /home/aurum
 
