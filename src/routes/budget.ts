@@ -1,11 +1,11 @@
 import express from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { supabase } from '../services/supabase';
 
 const router = express.Router();
 
 // GET /api/budget - Get current budget allocation
-router.get('/', authenticateToken, async (req, res) => {
+router.get('/', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -46,7 +46,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 // POST /api/budget/allocate - Allocate budget
-router.post('/allocate', authenticateToken, async (req, res) => {
+router.post('/allocate', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -82,7 +82,7 @@ router.post('/allocate', authenticateToken, async (req, res) => {
 });
 
 // GET /api/budget/forecast - Get budget forecast
-router.get('/forecast', authenticateToken, async (req, res) => {
+router.get('/forecast', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });

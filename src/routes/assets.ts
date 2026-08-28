@@ -1,11 +1,11 @@
 import express from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { supabase } from '../services/supabase';
 
 const router = express.Router();
 
 // GET /api/assets - List user's assets
-router.get('/', authenticateToken, async (req, res) => {
+router.get('/', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -24,7 +24,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 // POST /api/assets - Create new asset
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -56,7 +56,7 @@ router.post('/', authenticateToken, async (req, res) => {
 });
 
 // PUT /api/assets/:id - Update asset
-router.put('/:id', authenticateToken, async (req, res) => {
+router.put('/:id', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -81,7 +81,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
 });
 
 // DELETE /api/assets/:id - Delete asset
-router.delete('/:id', authenticateToken, async (req, res) => {
+router.delete('/:id', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });

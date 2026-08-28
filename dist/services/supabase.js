@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.supabaseAnon = exports.supabaseAdmin = void 0;
+exports.supabase = exports.supabaseAnon = exports.supabaseAdmin = void 0;
 const supabase_js_1 = require("@supabase/supabase-js");
 const supabaseUrl = process.env.SUPABASE_URL || '';
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || '';
@@ -16,4 +16,6 @@ const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || '';
 exports.supabaseAnon = (0, supabase_js_1.createClient)(supabaseUrl, supabaseAnonKey, {
     auth: { persistSession: false },
 });
+// Default export uses admin client for server-side operations
+exports.supabase = exports.supabaseAdmin;
 //# sourceMappingURL=supabase.js.map

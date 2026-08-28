@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { supabase } from '../services/supabase';
 import { Anthropic } from '@anthropic-ai/sdk';
 
@@ -7,7 +7,7 @@ const router = express.Router();
 const anthropic = new Anthropic();
 
 // GET /api/decision/snapshot - Get 7-dimensional financial health snapshot
-router.get('/snapshot', authenticateToken, async (req, res) => {
+router.get('/snapshot', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -55,7 +55,7 @@ router.get('/snapshot', authenticateToken, async (req, res) => {
 });
 
 // POST /api/decision/analyze - Analyze financial decision impact
-router.post('/analyze', authenticateToken, async (req, res) => {
+router.post('/analyze', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -123,7 +123,7 @@ Keep response concise and actionable.`;
 });
 
 // GET /api/decision/guidance - Get personalized financial guidance
-router.get('/guidance', authenticateToken, async (req, res) => {
+router.get('/guidance', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });

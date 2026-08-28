@@ -1,11 +1,11 @@
 import express from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { supabase } from '../services/supabase';
 
 const router = express.Router();
 
 // GET /api/credit/status - Get current credit status
-router.get('/status', authenticateToken, async (req, res) => {
+router.get('/status', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -30,7 +30,7 @@ router.get('/status', authenticateToken, async (req, res) => {
 });
 
 // POST /api/credit/upload - Upload credit report
-router.post('/upload', authenticateToken, async (req, res) => {
+router.post('/upload', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -63,7 +63,7 @@ router.post('/upload', authenticateToken, async (req, res) => {
 });
 
 // GET /api/credit/guidance - Get AI-powered credit improvement guidance
-router.get('/guidance', authenticateToken, async (req, res) => {
+router.get('/guidance', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -106,7 +106,7 @@ router.get('/guidance', authenticateToken, async (req, res) => {
 });
 
 // GET /api/credit/disputes - Get dispute history
-router.get('/disputes', authenticateToken, async (req, res) => {
+router.get('/disputes', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -125,7 +125,7 @@ router.get('/disputes', authenticateToken, async (req, res) => {
 });
 
 // POST /api/credit/dispute - Create a dispute
-router.post('/dispute', authenticateToken, async (req, res) => {
+router.post('/dispute', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });

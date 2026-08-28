@@ -1,11 +1,11 @@
 import express from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { supabase } from '../services/supabase';
 
 const router = express.Router();
 
 // GET /api/invest/portfolio - Get investment portfolio
-router.get('/portfolio', authenticateToken, async (req, res) => {
+router.get('/portfolio', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -37,7 +37,7 @@ router.get('/portfolio', authenticateToken, async (req, res) => {
 });
 
 // POST /api/invest/trade - Record investment transaction
-router.post('/trade', authenticateToken, async (req, res) => {
+router.post('/trade', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -73,7 +73,7 @@ router.post('/trade', authenticateToken, async (req, res) => {
 });
 
 // GET /api/invest/performance - Get investment performance
-router.get('/performance', authenticateToken, async (req, res) => {
+router.get('/performance', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -85,7 +85,7 @@ router.get('/performance', authenticateToken, async (req, res) => {
 
     if (error) throw error;
 
-    const performance = {
+    const performance: any = {
       totalInvested: (data || []).reduce((sum, item) => sum + (item.cost_basis || 0), 0),
       currentValue: (data || []).reduce((sum, item) => sum + (item.current_value || 0), 0),
       returnByType: {},
@@ -111,7 +111,7 @@ router.get('/performance', authenticateToken, async (req, res) => {
 });
 
 // GET /api/invest/turtlebot-status - Check Turtlebot trading bot status
-router.get('/turtlebot-status', authenticateToken, async (req, res) => {
+router.get('/turtlebot-status', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });

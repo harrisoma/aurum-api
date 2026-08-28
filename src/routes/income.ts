@@ -1,11 +1,11 @@
 import express from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { supabase } from '../services/supabase';
 
 const router = express.Router();
 
 // GET /api/income - List user's income streams
-router.get('/', authenticateToken, async (req, res) => {
+router.get('/', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -24,7 +24,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 // GET /api/income/total - Calculate total income
-router.get('/total', authenticateToken, async (req, res) => {
+router.get('/total', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -44,7 +44,7 @@ router.get('/total', authenticateToken, async (req, res) => {
 });
 
 // POST /api/income - Create new income stream
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -77,7 +77,7 @@ router.post('/', authenticateToken, async (req, res) => {
 });
 
 // PUT /api/income/:id - Update income stream
-router.put('/:id', authenticateToken, async (req, res) => {
+router.put('/:id', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
@@ -102,7 +102,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
 });
 
 // DELETE /api/income/:id - Delete income stream
-router.delete('/:id', authenticateToken, async (req, res) => {
+router.delete('/:id', authenticateToken, async (req: AuthRequest, res: express.Response) => {
   try {
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
