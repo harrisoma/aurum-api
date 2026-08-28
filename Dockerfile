@@ -35,9 +35,9 @@ ENV NODE_ENV=production \
 
 # Non-root user with fixed uid/gid
 RUN groupadd -r -g 10001 aurum \
- && useradd -r -u 10001 -g aurum -d /home/aurum -s /usr/sbin/nologin aurum \
+ && useradd -r -u 10001 -g aurum -s /usr/sbin/nologin aurum \
  && mkdir -p /app \
- && chown -R aurum:aurum /app /home/aurum
+ && chown -R aurum:aurum /app
 
 WORKDIR /app
 
