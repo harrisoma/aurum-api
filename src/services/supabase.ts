@@ -18,4 +18,7 @@ export const supabaseAnon = createClient(supabaseUrl, supabaseAnonKey, {
   auth: { persistSession: false },
 });
 
+// Default export uses admin client for server-side operations
+export const supabase = supabaseAdmin;
+
 export type Database = any; // We'll expand this with proper types later

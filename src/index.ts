@@ -7,21 +7,14 @@ dotenv.config();
 
 // Import routes
 import healthRoutes from './routes/health';
-import financialRoutes from './routes/financial';
 import authRoutes from './routes/auth';
-import vaultRoutes from './routes/vault';
-import scenarioRoutes from './routes/scenario';
-import initRoutes from './routes/init';
-import compassRoutes from './routes/compass';
-import vitalityRoutes from './routes/vitality';
-import circleRoutes from './routes/circle';
-import summitRoutes from './routes/summit';
-import foundationRoutes from './routes/foundation';
-import echoRoutes from './routes/echo';
-import impactRoutes from './routes/impact';
 import plaidRoutes from './routes/plaid';
-import cryptoRoutes from './routes/crypto';
-import aurumBotRoutes from './routes/aurum-bot';
+import assetsRoutes from './routes/assets';
+import incomeRoutes from './routes/income';
+import creditRoutes from './routes/credit';
+import budgetRoutes from './routes/budget';
+import investRoutes from './routes/invest';
+import decisionLayerRoutes from './routes/decision-layer';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -48,20 +41,13 @@ app.use((req, res, next) => {
 // Routes
 app.use('/health', healthRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/financial', financialRoutes);
-app.use('/api/aurum', vaultRoutes);
-app.use('/api/impact', impactRoutes);
 app.use('/api/plaid', plaidRoutes);
-app.use('/api/crypto', cryptoRoutes);
-app.use('/api/trading', aurumBotRoutes);
-app.use('/api/compass', compassRoutes);
-app.use('/api/vitality', vitalityRoutes);
-app.use('/api/circle', circleRoutes);
-app.use('/api/summit', summitRoutes);
-app.use('/api/foundation', foundationRoutes);
-app.use('/api/echo', echoRoutes);
-app.use('/api/scenario', scenarioRoutes);
-app.use('/init', initRoutes);
+app.use('/api/assets', assetsRoutes);
+app.use('/api/income', incomeRoutes);
+app.use('/api/credit', creditRoutes);
+app.use('/api/budget', budgetRoutes);
+app.use('/api/invest', investRoutes);
+app.use('/api/decision', decisionLayerRoutes);
 
 // Health check endpoint
 app.get('/', (req, res) => {
@@ -69,55 +55,65 @@ app.get('/', (req, res) => {
     name: 'AURUM API',
     version: '1.0.0',
     status: 'running',
-    description: 'AURUM - Premium Wealth OS. Holistic Life Operating System - Financial + Career + Health + Relationships + Goals + Habits + Legacy',
-    vault: {
-      description: 'Financial Intelligence - Real-time decision impact analysis',
-      endpoints: {
-        status: '/api/vault/status',
-        forecast: '/api/vault/forecast',
-        alerts: '/api/vault/alerts',
-        budget: '/api/vault/budget',
-        insights: '/api/vault/insights',
-        recommendations: '/api/vault/recommendations-monthly',
-        dashboard: '/api/vault/dashboard',
+    description: 'AURUM - Wealth Management Platform',
+    pillars: {
+      assets: {
+        description: 'Home, Car, Life Insurance',
+        endpoints: {
+          list: 'GET /api/assets',
+          create: 'POST /api/assets',
+          update: 'PUT /api/assets/:id',
+          delete: 'DELETE /api/assets/:id',
+        },
+      },
+      income: {
+        description: 'Job, Business, Side Gigs, Child Support, Investments',
+        endpoints: {
+          list: 'GET /api/income',
+          create: 'POST /api/income',
+          update: 'PUT /api/income/:id',
+          delete: 'DELETE /api/income/:id',
+        },
+      },
+      credit: {
+        description: 'Credit Reports, Score Tracking, Dispute Management',
+        endpoints: {
+          upload: 'POST /api/credit/upload',
+          status: 'GET /api/credit/status',
+          disputes: 'GET /api/credit/disputes',
+          guidance: 'GET /api/credit/guidance',
+        },
+      },
+      budget: {
+        description: 'Income vs Liabilities vs Expenses Allocation',
+        endpoints: {
+          current: 'GET /api/budget',
+          allocate: 'POST /api/budget/allocate',
+          forecast: 'GET /api/budget/forecast',
+        },
+      },
+      invest: {
+        description: 'Long-term & Short-term Investments, Turtlebot Fallback',
+        endpoints: {
+          portfolio: 'GET /api/invest/portfolio',
+          trade: 'POST /api/invest/trade',
+          performance: 'GET /api/invest/performance',
+        },
+      },
+      decision: {
+        description: 'AI-powered financial health guidance and recommendations',
+        endpoints: {
+          analyze: 'POST /api/decision/analyze',
+          snapshot: 'GET /api/decision/snapshot',
+          guidance: 'GET /api/decision/guidance',
+        },
       },
     },
-    impact: {
-      description: 'Impact Analysis Engine - Holistic life decision analysis',
-      endpoints: {
-        metrics: '/api/impact/metrics',
-        analyze: '/api/impact/analyze (POST)',
-        affordability: '/api/impact/affordability (POST)',
-        dashboard: '/api/impact/dashboard',
-      },
-    },
-    plaid: {
-      description: 'Bank Account Integration - Connect to 12,000+ financial institutions',
-      endpoints: {
-        linkToken: '/api/plaid/link-token',
-        exchangeToken: '/api/plaid/exchange-token (POST)',
-        accounts: '/api/plaid/accounts',
-        transactions: '/api/plaid/transactions',
-        sync: '/api/plaid/sync (POST)',
-      },
-    },
-    features: {
-      'Real-time transactions': 'Plaid + Crypto + Stocks integration',
-      'Financial aggregation': 'Banks, credit cards, investments, crypto, tax',
-      'Impact analysis': 'Financial + Physical + Emotional + Career analysis',
-      'Decision support': 'How will this purchase affect my life?',
-      'Smart recommendations': 'How to afford something without breaking budget',
-      'Multi-provider LLM': 'DeepSeek, Claude, OpenRouter, Onyx support',
-      'Holistic insights': 'Context across all 7 life dimensions',
-    },
-    apps: {
-      vault: '/api/vault - Financial Intelligence',
-      compass: '/api/compass - Career Alignment',
-      vitality: '/api/vitality - Health Tracking',
-      circle: '/api/circle - Relationships',
-      summit: '/api/summit - Life Goals',
-      foundation: '/api/foundation - Habits',
-      echo: '/api/echo - Legacy',
+    integrations: {
+      plaid: 'Banking & Account Aggregation',
+      openTax: 'Tax Calculations (IRS-validated)',
+      metro2: 'Credit Report Parsing',
+      walletConnect: 'Cryptocurrency & DeFi',
     },
   });
 });
