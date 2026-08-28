@@ -23,8 +23,9 @@ COPY package.json package-lock.json* ./
 COPY tsconfig.json ./
 COPY src ./src
 
-# Install dependencies (dist/ compiled locally)
+# Install dependencies and compile TypeScript
 RUN npm install --omit=optional --no-audit --no-fund \
+ && npm run build \
  && npm prune --omit=dev
 
 # ---- Stage 2: runtime ----
