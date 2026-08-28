@@ -11,7 +11,7 @@
 # Updated: Using npm install for cross-platform compatibility
 
 # ---- Stage 1: builder ----
-FROM node:20.11.1-slim AS builder
+FROM node:22-slim AS builder
 
 ENV NODE_ENV=production \
     CI=true
@@ -29,7 +29,7 @@ RUN npm install --omit=optional --no-audit --no-fund \
  && npm prune --omit=dev
 
 # ---- Stage 2: runtime ----
-FROM node:20.11.1-slim AS runtime
+FROM node:22-slim AS runtime
 
 ENV NODE_ENV=production \
     PORT=8080
